@@ -21,6 +21,27 @@ const DIRECTION_COLORS: Record<Direction, string> = {
     MIXED: 'text-purple-400',
 };
 
+const SIDE_COLORS: Record<string, string> = {
+    L: 'text-red-400',
+    R: 'text-green-400',
+};
+
+function RunwayName({ name, className = '' }: { name: string; className?: string }) {
+    const match = name.match(/^(\d+)([LRC]?)$/);
+    if (!match) return <span className={className}>{name}</span>;
+    const [, num, side] = match;
+    return (
+        <span className={className}>
+            {num}
+            {side && (
+                <span className={`font-black text-lg ${SIDE_COLORS[side] ?? 'text-yellow-400'}`}>
+                    {side}
+                </span>
+            )}
+        </span>
+    );
+}
+
 export default function DepartureResultTable({ fix, isOmniFallback }: DepartureResultTableProps) {
     const sectionRefs = useRef<Map<string, HTMLDivElement | null>>(new Map());
 
@@ -76,12 +97,12 @@ export default function DepartureResultTable({ fix, isOmniFallback }: DepartureR
                             <button
                                 key={rwy}
                                 onClick={() => scrollToRunway(rwy)}
-                                className={`rounded px-3 py-1 text-sm font-medium transition-colors ${isHighlighted
+                                className={`rounded px-3 py-1.5 text-sm font-semibold transition-colors ${isHighlighted
                                     ? 'bg-blue-600 text-white hover:bg-blue-500 border border-blue-400'
                                     : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-600'
                                     }`}
                             >
-                                {rwy}
+                                <RunwayName name={rwy} />
                             </button>
                         );
                     })}
@@ -107,10 +128,10 @@ export default function DepartureResultTable({ fix, isOmniFallback }: DepartureR
                             }`}
                     >
                         <h3
-                            className={`mb-2 text-sm font-semibold ${isHighlighted ? 'text-blue-300' : 'text-zinc-300'
+                            className={`mb-2 text-base font-bold ${isHighlighted ? 'text-blue-300' : 'text-zinc-300'
                                 }`}
                         >
-                            Pista {rwy}
+                            Pista <RunwayName name={rwy} />
                         </h3>
 
                         <ul className="space-y-1">

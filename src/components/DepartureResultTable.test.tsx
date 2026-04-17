@@ -62,9 +62,12 @@ describe('DepartureResultTable', () => {
 
     it('groups departure options by runway', () => {
         render(<DepartureResultTable fix={northFix} isOmniFallback={false} />);
-        expect(screen.getByText('Pista 11L')).toBeInTheDocument();
-        expect(screen.getByText('Pista 29R')).toBeInTheDocument();
-        expect(screen.getByText('Pista 11R')).toBeInTheDocument();
+        // RunwayName splits "11L" into "11" + "L" in separate spans
+        const headings = screen.getAllByRole('heading', { level: 3 });
+        const texts = headings.map(h => h.textContent);
+        expect(texts).toContain('Pista 11L');
+        expect(texts).toContain('Pista 29R');
+        expect(texts).toContain('Pista 11R');
     });
 
     it('sorts options by priority within each runway (lowest first)', () => {
