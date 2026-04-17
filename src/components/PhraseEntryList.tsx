@@ -209,7 +209,7 @@ export default function PhraseEntryList({ entries }: PhraseEntryListProps) {
                         {hasPtBr && (
                             <div className="flex items-start gap-2 mb-2 bg-zinc-900/50 rounded-md p-2 border-l-2 border-green-600">
                                 <span className="shrink-0 mt-0.5 text-base leading-none" aria-label="Português">🇧🇷</span>
-                                <p className="text-sm text-zinc-200 flex-1 break-words">
+                                <p className="text-sm text-zinc-200 flex-1 break-words whitespace-pre-wrap">
                                     <RenderedContent
                                         content={entry.contentPtBr}
                                         globalVarsMap={globalVarsMap}
@@ -222,7 +222,7 @@ export default function PhraseEntryList({ entries }: PhraseEntryListProps) {
                         {hasEn && (
                             <div className="flex items-start gap-2 bg-zinc-900/50 rounded-md p-2 border-l-2 border-blue-500">
                                 <span className="shrink-0 mt-0.5 text-base leading-none" aria-label="English">🇺🇸</span>
-                                <p className="text-sm text-zinc-200 flex-1 break-words">
+                                <p className="text-sm text-zinc-200 flex-1 break-words whitespace-pre-wrap">
                                     <RenderedContent
                                         content={entry.contentEn}
                                         globalVarsMap={globalVarsMap}
