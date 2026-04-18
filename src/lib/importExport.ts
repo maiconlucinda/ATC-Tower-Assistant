@@ -43,9 +43,6 @@ function validateDepartureOption(
     if (typeof opt.sid !== "string") {
         errors.push(`${prefix}.sid: must be a string`);
     }
-    if (typeof opt.priority !== "number") {
-        errors.push(`${prefix}.priority: must be a number`);
-    }
     if (opt.direction !== undefined) {
         if (typeof opt.direction !== "string" || !(VALID_DIRECTIONS as readonly string[]).includes(opt.direction)) {
             errors.push(`${prefix}.direction: must be one of NORTH, SOUTH, MIXED if present`);
@@ -253,7 +250,6 @@ export function validateImportData(data: unknown): ValidationResult {
                     errors.push(`${prefix}.direction: must be one of NORTH, SOUTH, MIXED`);
                 }
                 if (!Array.isArray(sid.fixNames)) errors.push(`${prefix}.fixNames: must be an array`);
-                if (typeof sid.priority !== "number") errors.push(`${prefix}.priority: must be a number`);
             }
         }
     }
@@ -278,10 +274,32 @@ export function validateImportData(data: unknown): ValidationResult {
 
 /**
  * Export all current AppData from localStorage as a JSON string.
+ * Strips legacy fields (e.g. priority) that may linger in stored data.
  */
 export function exportAll(): string {
     const { data } = loadAll();
-    return JSON.stringify(data);
+
+    // Strip legacy 'priority' from fixes and sidProcedures
+    const cleanFixes = data.fixes.map((fix) => ({
+        ...fix,
+        departureOptions: fix.departureOptions.map(({ id, runway, sid, direction }) => {
+            const opt: Record<string, unknown> = { id, runway, sid };
+            if (direction) opt.direction = direction;
+            return opt;
+        }),
+    }));
+
+    const cleanSids = (data.sidProcedures ?? []).map(({ id, name, runway, direction, fixNames }) => ({
+        id, name, runway, direction, fixNames,
+    }));
+
+    const cleanData = {
+        ...data,
+        fixes: cleanFixes,
+        sidProcedures: cleanSids.length > 0 ? cleanSids : undefined,
+    };
+
+    return JSON.stringify(cleanData);
 }
 
 /**

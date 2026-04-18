@@ -17,7 +17,7 @@ function makeValidAppData(): AppData {
                 name: "EPDEP",
                 direction: "NORTH",
                 departureOptions: [
-                    { id: "d1", runway: "11L", sid: "ESBU6A", priority: 1 },
+                    { id: "d1", runway: "11L", sid: "ESBU6A" },
                 ],
             },
         ],
@@ -91,10 +91,10 @@ describe("validateImportData", () => {
 
     it("rejects departure option with wrong types", () => {
         const data = makeValidAppData();
-        (data.fixes[0].departureOptions[0] as any).priority = "high";
+        (data.fixes[0].departureOptions[0] as any).sid = 123;
         const result = validateImportData(data);
         expect(result.valid).toBe(false);
-        expect(result.errors.some((e) => e.includes("priority"))).toBe(true);
+        expect(result.errors.some((e) => e.includes("sid"))).toBe(true);
     });
 
     it("rejects category with missing sortOrder", () => {

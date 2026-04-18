@@ -59,7 +59,7 @@ function CreateFixForm() {
     );
 }
 
-function DepartureOptionRow({ fixId, option }: { fixId: string; option: { id: string; runway: string; sid: string; priority: number; direction?: Direction } }) {
+function DepartureOptionRow({ fixId, option }: { fixId: string; option: { id: string; runway: string; sid: string; direction?: Direction } }) {
     const updateDepartureOption = useAppStore((s) => s.updateDepartureOption);
     const removeDepartureOption = useAppStore((s) => s.removeDepartureOption);
 
@@ -92,14 +92,6 @@ function DepartureOptionRow({ fixId, option }: { fixId: string; option: { id: st
                     <option key={d} value={d}>{d === 'NORTH' ? 'N' : d === 'SOUTH' ? 'S' : 'N/S'}</option>
                 ))}
             </select>
-            <input
-                type="number"
-                value={option.priority}
-                onChange={(e) => updateDepartureOption(fixId, option.id, { priority: Number(e.target.value) })}
-                className="bg-zinc-900 border border-zinc-600 rounded px-1.5 py-0.5 text-xs text-zinc-100 w-14 focus:outline-none focus:border-blue-500"
-                aria-label="Priority"
-                placeholder="Pri"
-            />
             <button
                 onClick={() => removeDepartureOption(fixId, option.id)}
                 className="text-red-400 hover:text-red-300 text-xs px-1"
@@ -128,7 +120,7 @@ function FixRow({ fix }: { fix: TransitionFix }) {
     };
 
     const handleAddOption = () => {
-        addDepartureOption(fix.id, '', '', 1);
+        addDepartureOption(fix.id, '', '');
     };
 
     return (

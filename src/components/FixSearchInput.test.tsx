@@ -10,7 +10,7 @@ const mockFixes: TransitionFix[] = [
         name: 'EPDEP',
         direction: 'NORTH',
         departureOptions: [
-            { id: 'o1', runway: '11L', sid: 'ESBU6A', priority: 1 },
+            { id: 'o1', runway: '11L', sid: 'ESBU6A' },
         ],
     },
     {
@@ -18,7 +18,7 @@ const mockFixes: TransitionFix[] = [
         name: 'GNV',
         direction: 'SOUTH',
         departureOptions: [
-            { id: 'o2', runway: '11R', sid: 'GNV1A', priority: 1 },
+            { id: 'o2', runway: '11R', sid: 'GNV1A' },
         ],
     },
     {
@@ -26,8 +26,8 @@ const mockFixes: TransitionFix[] = [
         name: 'OMNI',
         direction: 'MIXED',
         departureOptions: [
-            { id: 'o3', runway: '11L', sid: 'OMNI1', priority: 1 },
-            { id: 'o4', runway: '11R', sid: 'OMNI2', priority: 1 },
+            { id: 'o3', runway: '11L', sid: 'OMNI1' },
+            { id: 'o4', runway: '11R', sid: 'OMNI2' },
         ],
     },
     {

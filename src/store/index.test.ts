@@ -131,7 +131,7 @@ describe('AppStore', () => {
 
         it('adds a departure option', () => {
             const fixId = useAppStore.getState().fixes[0].id;
-            const result = useAppStore.getState().addDepartureOption(fixId, '11L', 'ESBU6A', 1);
+            const result = useAppStore.getState().addDepartureOption(fixId, '11L', 'ESBU6A');
             expect(result).toBe(true);
             expect(useAppStore.getState().fixes[0].departureOptions).toHaveLength(1);
             expect(useAppStore.getState().fixMap.get('EPDEP')!.departureOptions).toHaveLength(1);
@@ -139,7 +139,7 @@ describe('AppStore', () => {
 
         it('updates a departure option', () => {
             const fixId = useAppStore.getState().fixes[0].id;
-            useAppStore.getState().addDepartureOption(fixId, '11L', 'ESBU6A', 1);
+            useAppStore.getState().addDepartureOption(fixId, '11L', 'ESBU6A');
             const optId = useAppStore.getState().fixes[0].departureOptions[0].id;
             const result = useAppStore.getState().updateDepartureOption(fixId, optId, { sid: 'ESBU6B' });
             expect(result).toBe(true);
@@ -148,7 +148,7 @@ describe('AppStore', () => {
 
         it('removes a departure option', () => {
             const fixId = useAppStore.getState().fixes[0].id;
-            useAppStore.getState().addDepartureOption(fixId, '11L', 'ESBU6A', 1);
+            useAppStore.getState().addDepartureOption(fixId, '11L', 'ESBU6A');
             const optId = useAppStore.getState().fixes[0].departureOptions[0].id;
             const result = useAppStore.getState().removeDepartureOption(fixId, optId);
             expect(result).toBe(true);
@@ -156,7 +156,7 @@ describe('AppStore', () => {
         });
 
         it('returns false for non-existent fix', () => {
-            expect(useAppStore.getState().addDepartureOption('bad-id', '11L', 'X', 1)).toBe(false);
+            expect(useAppStore.getState().addDepartureOption('bad-id', '11L', 'X')).toBe(false);
         });
     });
 

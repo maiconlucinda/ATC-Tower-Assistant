@@ -103,7 +103,7 @@ describe('FixEditor', () => {
 
     it('renders departure option fields and allows removal', () => {
         const fix = makeFix('GNV', 'NORTH', [
-            { id: 'opt-1', runway: '11L', sid: 'ESBU6A', priority: 1 },
+            { id: 'opt-1', runway: '11L', sid: 'ESBU6A' },
         ]);
         useAppStore.setState({ fixes: [fix], fixMap: new Map([['GNV', fix]]) });
 

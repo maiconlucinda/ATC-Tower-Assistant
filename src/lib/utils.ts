@@ -49,15 +49,14 @@ export function resolveFixOrOmni(
 }
 
 /**
- * Filter departure options by runway and sort by priority ascending.
+ * Filter departure options by runway.
  */
 export function getOptionsForRunway(
     fix: TransitionFix,
     runway: string
 ): DepartureOption[] {
     return fix.departureOptions
-        .filter((opt) => opt.runway === runway)
-        .sort((a, b) => a.priority - b.priority);
+        .filter((opt) => opt.runway === runway);
 }
 
 /**
@@ -121,8 +120,8 @@ export function searchPhrases(
  * and creates departure options with per-SID direction.
  */
 export function buildFixesFromSids(sids: SidProcedure[]): TransitionFix[] {
-    // Group: fixName → array of { sid, runway, direction, priority }
-    const fixMap = new Map<string, { sid: string; runway: string; direction: Direction; priority: number }[]>();
+    // Group: fixName → array of { sid, runway, direction }
+    const fixMap = new Map<string, { sid: string; runway: string; direction: Direction }[]>();
 
     for (const sid of sids) {
         for (const fixName of sid.fixNames) {
@@ -134,7 +133,6 @@ export function buildFixesFromSids(sids: SidProcedure[]): TransitionFix[] {
                 sid: sid.name,
                 runway: sid.runway,
                 direction: sid.direction,
-                priority: sid.priority,
             });
         }
     }
@@ -162,7 +160,6 @@ export function buildFixesFromSids(sids: SidProcedure[]): TransitionFix[] {
                 id: `${name.toLowerCase()}-${o.runway.toLowerCase()}-${i + 1}`,
                 runway: o.runway,
                 sid: o.sid,
-                priority: o.priority,
                 direction: o.direction,
             })),
         });

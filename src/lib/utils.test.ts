@@ -25,9 +25,9 @@ const EPDEP: TransitionFix = {
     name: "EPDEP",
     direction: "NORTH",
     departureOptions: [
-        { id: "d1", runway: "11L", sid: "ESBU6A", priority: 1 },
-        { id: "d2", runway: "11L", sid: "ESBU6B", priority: 2 },
-        { id: "d3", runway: "29R", sid: "ESBU6C", priority: 1 },
+        { id: "d1", runway: "11L", sid: "ESBU6A" },
+        { id: "d2", runway: "11L", sid: "ESBU6B" },
+        { id: "d3", runway: "29R", sid: "ESBU6C" },
     ],
 };
 
@@ -36,8 +36,8 @@ const GNV: TransitionFix = {
     name: "GNV",
     direction: "SOUTH",
     departureOptions: [
-        { id: "d4", runway: "11R", sid: "GNV1A", priority: 2 },
-        { id: "d5", runway: "11R", sid: "GNV1B", priority: 1 },
+        { id: "d4", runway: "11R", sid: "GNV1A" },
+        { id: "d5", runway: "11R", sid: "GNV1B" },
     ],
 };
 
@@ -46,8 +46,8 @@ const OMNI: TransitionFix = {
     name: "OMNI",
     direction: "MIXED",
     departureOptions: [
-        { id: "d6", runway: "11L", sid: "OMNI1", priority: 1 },
-        { id: "d7", runway: "29R", sid: "OMNI2", priority: 1 },
+        { id: "d6", runway: "11L", sid: "OMNI1" },
+        { id: "d7", runway: "29R", sid: "OMNI2" },
     ],
 };
 
@@ -106,11 +106,11 @@ describe("resolveFixOrOmni", () => {
 });
 
 describe("getOptionsForRunway", () => {
-    it("filters by runway and sorts by priority ascending", () => {
+    it("filters by runway", () => {
         const result = getOptionsForRunway(GNV, "11R");
         expect(result).toHaveLength(2);
-        expect(result[0].sid).toBe("GNV1B"); // priority 1
-        expect(result[1].sid).toBe("GNV1A"); // priority 2
+        expect(result[0].sid).toBe("GNV1A");
+        expect(result[1].sid).toBe("GNV1B");
     });
 
     it("returns empty for non-existent runway", () => {

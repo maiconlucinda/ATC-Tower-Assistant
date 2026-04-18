@@ -6,6 +6,8 @@ import { persistSidProcedures } from '@/lib/dataStore';
 import { useAppStore } from '@/store';
 import type { SidProcedure } from '@/types';
 
+const GITHUB_DATA_URL = 'https://github.com/maiconlucinda/ATC-Tower-Assistant/tree/main/data';
+
 export default function ImportExportControls() {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -67,6 +69,14 @@ export default function ImportExportControls() {
 
     return (
         <div className="flex items-center gap-2">
+            <a
+                href={GITHUB_DATA_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1.5 rounded-md text-xs font-medium bg-blue-700 text-white hover:bg-blue-600 transition-colors"
+            >
+                📥 Dados Iniciais
+            </a>
             <button
                 onClick={handleExport}
                 className="px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-700 text-zinc-200 hover:bg-zinc-600 transition-colors"

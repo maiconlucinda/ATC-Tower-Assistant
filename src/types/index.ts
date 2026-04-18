@@ -4,7 +4,6 @@ export interface DepartureOption {
     id: string;
     runway: string;
     sid: string;
-    priority: number;
     direction?: Direction;
 }
 
@@ -43,7 +42,6 @@ export interface SidProcedure {
     runway: string;     // e.g. "11L"
     direction: Direction;
     fixNames: string[]; // e.g. ["EPDEP", "PULUV", "ILKUS", "UGUGA", "PABUM", "KOGDI"]
-    priority: number;   // lower = preferred
 }
 
 export interface AppData {

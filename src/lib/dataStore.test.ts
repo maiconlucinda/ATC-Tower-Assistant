@@ -37,7 +37,7 @@ describe("loadAll", () => {
                 name: "EPDEP",
                 direction: "NORTH",
                 departureOptions: [
-                    { id: "d1", runway: "11L", sid: "ESBU6A", priority: 1 },
+                    { id: "d1", runway: "11L", sid: "ESBU6A" },
                 ],
             },
         ];

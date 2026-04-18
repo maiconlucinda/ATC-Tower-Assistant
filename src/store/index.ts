@@ -49,12 +49,12 @@ export interface AppState {
     addFix: (name: string, direction: Direction) => boolean;
     updateFix: (id: string, updates: Partial<Pick<TransitionFix, 'name' | 'direction'>>) => boolean;
     deleteFix: (id: string) => boolean;
-    addDepartureOption: (fixId: string, runway: string, sid: string, priority: number) => boolean;
-    updateDepartureOption: (fixId: string, optionId: string, updates: Partial<Pick<DepartureOption, 'runway' | 'sid' | 'priority' | 'direction'>>) => boolean;
+    addDepartureOption: (fixId: string, runway: string, sid: string) => boolean;
+    updateDepartureOption: (fixId: string, optionId: string, updates: Partial<Pick<DepartureOption, 'runway' | 'sid' | 'direction'>>) => boolean;
     removeDepartureOption: (fixId: string, optionId: string) => boolean;
 
     // --- SID Procedure CRUD ---
-    addSidProcedure: (name: string, runway: string, direction: Direction, fixNames: string[], priority?: number) => string | null;
+    addSidProcedure: (name: string, runway: string, direction: Direction, fixNames: string[]) => string | null;
     updateSidProcedure: (id: string, updates: Partial<Omit<SidProcedure, 'id'>>) => boolean;
     deleteSidProcedure: (id: string) => boolean;
     rebuildFixesFromSids: () => void;
@@ -202,7 +202,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
         return true;
     },
 
-    addDepartureOption: (fixId, runway, sid, priority) => {
+    addDepartureOption: (fixId, runway, sid) => {
         const { fixes } = get();
         const idx = fixes.findIndex((f) => f.id === fixId);
         if (idx === -1) return false;
@@ -211,7 +211,6 @@ export const useAppStore = create<AppState>()((set, get) => ({
             id: crypto.randomUUID(),
             runway,
             sid,
-            priority,
         };
         const updated = [...fixes];
         updated[idx] = {
@@ -360,9 +359,9 @@ export const useAppStore = create<AppState>()((set, get) => ({
     },
 
     // --- SID Procedure CRUD ---
-    addSidProcedure: (name, runway, direction, fixNames, priority = 1) => {
+    addSidProcedure: (name, runway, direction, fixNames) => {
         const id = crypto.randomUUID();
-        const newSid: SidProcedure = { id, name: name.toUpperCase(), runway, direction, fixNames: fixNames.map(f => f.toUpperCase()), priority };
+        const newSid: SidProcedure = { id, name: name.toUpperCase(), runway, direction, fixNames: fixNames.map(f => f.toUpperCase()) };
         const sids = [...get().sidProcedures, newSid];
         persistSidProcedures(sids);
         const fixes = buildFixesFromSids(sids);

@@ -98,7 +98,14 @@ npm install
 npm run dev
 ```
 
-Abra `http://localhost:3000`, importe o arquivo `sbgr-data.json` para carregar os dados de SBGR, e ative o Edit Mode para personalizar.
+Abra `http://localhost:3000`. Na pasta `data/` estão os arquivos de configuração inicial para cada aeroporto:
+
+| Arquivo | Aeroporto |
+|---------|-----------|
+| `data/SBGR.json` | Guarulhos (SBGR) |
+| `data/SBBR.json` | Brasília (SBBR) |
+
+Para começar, clique em "Import" no app e selecione o arquivo do aeroporto desejado. Após importar, os dados de SIDs, fixos, categorias de frases e variáveis globais serão carregados automaticamente. Ative o Edit Mode para personalizar.
 
 ## Deploy
 

@@ -8,11 +8,11 @@ const northFix: TransitionFix = {
     name: 'EPDEP',
     direction: 'NORTH',
     departureOptions: [
-        { id: 'o1', runway: '11L', sid: 'ESBU6A', priority: 1 },
-        { id: 'o2', runway: '11L', sid: 'ESBU6B', priority: 2 },
-        { id: 'o3', runway: '29R', sid: 'ESBU6C', priority: 1 },
-        { id: 'o4', runway: '11R', sid: 'ESBU6D', priority: 3 },
-        { id: 'o5', runway: '11R', sid: 'ESBU6E', priority: 1 },
+        { id: 'o1', runway: '11L', sid: 'ESBU6A' },
+        { id: 'o2', runway: '11L', sid: 'ESBU6B' },
+        { id: 'o3', runway: '29R', sid: 'ESBU6C' },
+        { id: 'o4', runway: '11R', sid: 'ESBU6D' },
+        { id: 'o5', runway: '11R', sid: 'ESBU6E' },
     ],
 };
 
@@ -21,8 +21,8 @@ const southFix: TransitionFix = {
     name: 'GNV',
     direction: 'SOUTH',
     departureOptions: [
-        { id: 's1', runway: '11R', sid: 'GNV1A', priority: 1 },
-        { id: 's2', runway: '29L', sid: 'GNV1B', priority: 2 },
+        { id: 's1', runway: '11R', sid: 'GNV1A' },
+        { id: 's2', runway: '29L', sid: 'GNV1B' },
     ],
 };
 
@@ -31,8 +31,8 @@ const mixedFix: TransitionFix = {
     name: 'OMNI',
     direction: 'MIXED',
     departureOptions: [
-        { id: 'm1', runway: '11L', sid: 'OMNI1', priority: 1 },
-        { id: 'm2', runway: '11R', sid: 'OMNI2', priority: 1 },
+        { id: 'm1', runway: '11L', sid: 'OMNI1' },
+        { id: 'm2', runway: '11R', sid: 'OMNI2' },
     ],
 };
 
@@ -70,14 +70,14 @@ describe('DepartureResultTable', () => {
         expect(texts).toContain('Pista 11R');
     });
 
-    it('sorts options by priority within each runway (lowest first)', () => {
+    it('sorts options within each runway by insertion order', () => {
         render(<DepartureResultTable fix={northFix} isOmniFallback={false} />);
-        // 11R has ESBU6E (priority 1) and ESBU6D (priority 3)
-        // ESBU6E should appear before ESBU6D
+        // 11R has ESBU6D then ESBU6E in insertion order
+        // ESBU6D should appear before ESBU6E
         const allItems = screen.getAllByText(/ESBU6/);
-        const esbu6eIdx = allItems.findIndex((el) => el.textContent === 'ESBU6E');
         const esbu6dIdx = allItems.findIndex((el) => el.textContent === 'ESBU6D');
-        expect(esbu6eIdx).toBeLessThan(esbu6dIdx);
+        const esbu6eIdx = allItems.findIndex((el) => el.textContent === 'ESBU6E');
+        expect(esbu6dIdx).toBeLessThan(esbu6eIdx);
     });
 
     it('highlights runways for NORTH direction (11L, 29R)', () => {

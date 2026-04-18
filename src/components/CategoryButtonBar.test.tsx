@@ -25,20 +25,20 @@ describe('CategoryButtonBar', () => {
         resetStore({ phraseCategories: categories });
         render(<CategoryButtonBar />);
 
-        const buttons = screen.getAllByRole('button');
-        expect(buttons).toHaveLength(3);
-        expect(buttons[0]).toHaveTextContent('AUTORIZAÇÃO');
-        expect(buttons[1]).toHaveTextContent('PUSHBACK');
-        expect(buttons[2]).toHaveTextContent('TAXI');
+        const tabs = screen.getAllByRole('tab');
+        expect(tabs).toHaveLength(3);
+        expect(tabs[0]).toHaveTextContent('AUTORIZAÇÃO');
+        expect(tabs[1]).toHaveTextContent('PUSHBACK');
+        expect(tabs[2]).toHaveTextContent('TAXI');
     });
 
-    it('highlights the selected category with aria-pressed', () => {
+    it('highlights the selected category with aria-selected', () => {
         resetStore({ phraseCategories: categories, selectedCategoryId: 'c2' });
         render(<CategoryButtonBar />);
 
-        expect(screen.getByText('PUSHBACK')).toHaveAttribute('aria-pressed', 'true');
-        expect(screen.getByText('AUTORIZAÇÃO')).toHaveAttribute('aria-pressed', 'false');
-        expect(screen.getByText('TAXI')).toHaveAttribute('aria-pressed', 'false');
+        expect(screen.getByText('PUSHBACK').closest('[role="tab"]')).toHaveAttribute('aria-selected', 'true');
+        expect(screen.getByText('AUTORIZAÇÃO').closest('[role="tab"]')).toHaveAttribute('aria-selected', 'false');
+        expect(screen.getByText('TAXI').closest('[role="tab"]')).toHaveAttribute('aria-selected', 'false');
     });
 
     it('selects category and clears phrase search on click', () => {
@@ -60,7 +60,7 @@ describe('CategoryButtonBar', () => {
         resetStore({ phraseCategories: [] });
         render(<CategoryButtonBar />);
 
-        expect(screen.queryAllByRole('button')).toHaveLength(0);
+        expect(screen.queryAllByRole('tab')).toHaveLength(0);
     });
 
     it('supports keyboard activation via Enter on native buttons', () => {
