@@ -14,16 +14,14 @@ function CreateSidForm() {
     const [runway, setRunway] = useState('11L');
     const [direction, setDirection] = useState<Direction>('NORTH');
     const [fixNames, setFixNames] = useState('');
-    const [priority, setPriority] = useState(1);
 
     const handleCreate = () => {
         const trimmedName = name.trim();
         const fixes = fixNames.split(',').map(f => f.trim()).filter(Boolean);
         if (!trimmedName || fixes.length === 0) return;
-        addSidProcedure(trimmedName, runway, direction, fixes, priority);
+        addSidProcedure(trimmedName, runway, direction, fixes);
         setName('');
         setFixNames('');
-        setPriority(1);
     };
 
     return (
@@ -60,14 +58,6 @@ function CreateSidForm() {
                             <option key={d} value={d}>{DIR_LABEL[d]}</option>
                         ))}
                     </select>
-                    <input
-                        type="number"
-                        value={priority}
-                        onChange={(e) => setPriority(Number(e.target.value))}
-                        className="bg-zinc-900 border border-zinc-600 rounded px-2 py-1 text-sm text-zinc-100 w-14 focus:outline-none focus:border-blue-500"
-                        aria-label="Priority"
-                        min={1}
-                    />
                 </div>
                 <div className="flex items-center gap-2">
                     <input
@@ -134,14 +124,6 @@ function SidRow({ sid }: { sid: SidProcedure }) {
                         <option key={d} value={d}>{DIR_LABEL[d]}</option>
                     ))}
                 </select>
-                <input
-                    type="number"
-                    value={sid.priority}
-                    onChange={(e) => updateSidProcedure(sid.id, { priority: Number(e.target.value) })}
-                    className="bg-zinc-900 border border-zinc-600 rounded px-1.5 py-0.5 text-xs text-zinc-100 w-12 focus:outline-none focus:border-blue-500"
-                    aria-label={`Prioridade da SID ${sid.name}`}
-                    min={1}
-                />
                 <button
                     onClick={() => deleteSidProcedure(sid.id)}
                     className="text-red-400 hover:text-red-300 text-xs px-1 ml-auto"

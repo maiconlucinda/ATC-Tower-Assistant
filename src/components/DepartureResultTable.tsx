@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useCallback, useMemo } from 'react';
+import { useRef, useCallback, useMemo, useState } from 'react';
 import type { TransitionFix, Direction } from '@/types';
 import { getOptionsForRunway, getHighlightedRunways } from '@/lib/utils';
 
@@ -44,6 +44,36 @@ function RunwayName({ name, className = '' }: { name: string; className?: string
 
 export default function DepartureResultTable({ fix, isOmniFallback }: DepartureResultTableProps) {
     const sectionRefs = useRef<Map<string, HTMLDivElement | null>>(new Map());
+    const [selectedRoute, setSelectedRoute] = useState<string | null>(null);
+    const [copyStatus, setCopyStatus] = useState<'idle' | 'copied'>('idle');
+    const [cursorPos, setCursorPos] = useState<{ x: number; y: number } | null>(null);
+
+    const handleSidClick = useCallback(async (e: React.MouseEvent, sid: string, runway: string) => {
+        const route = `${sid}.${fix.name}${runway}`;
+        setSelectedRoute(route);
+        setCopyStatus('idle');
+        setCursorPos({ x: e.clientX, y: e.clientY });
+        try {
+            await navigator.clipboard.writeText(route);
+            setCopyStatus('copied');
+            setTimeout(() => { setCopyStatus('idle'); setCursorPos(null); }, 1200);
+        } catch {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = route;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                setCopyStatus('copied');
+                setTimeout(() => { setCopyStatus('idle'); setCursorPos(null); }, 1200);
+            } catch { /* ignore */ }
+        }
+    }, [fix.name]);
+
+    const handleCopyRoute = handleSidClick; // kept for compatibility
 
     const highlightedRunways = useMemo(
         () => new Set(getHighlightedRunways(fix.direction)),
@@ -135,24 +165,28 @@ export default function DepartureResultTable({ fix, isOmniFallback }: DepartureR
                         </h3>
 
                         <ul className="space-y-1">
-                            {options.map((opt, idx) => {
-                                const isPreferred = idx === 0;
+                            {options.map((opt) => {
                                 const optDir = opt.direction ?? fix.direction;
+                                const route = `${opt.sid}.${fix.name}${rwy}`;
+                                const isSelected = selectedRoute === route;
                                 return (
                                     <li
                                         key={opt.id}
-                                        className={`flex items-center gap-2 rounded px-2 py-1 text-sm ${isPreferred
-                                            ? 'bg-emerald-900/40 text-emerald-200 font-bold'
-                                            : 'text-zinc-300'
+                                        onClick={(e) => handleSidClick(e, opt.sid, rwy)}
+                                        className={`flex items-center gap-2 rounded px-2 py-1 text-sm cursor-pointer transition-colors ${isSelected
+                                            ? 'bg-white/10 ring-2 ring-white'
+                                            : 'text-zinc-300 hover:bg-zinc-700/50'
                                             }`}
                                     >
-                                        {isPreferred && (
-                                            <span className="text-emerald-400" aria-label="Preferred SID">★</span>
-                                        )}
                                         <span>{opt.sid}</span>
                                         <span className={`text-xs font-medium ${DIRECTION_COLORS[optDir]}`}>
                                             {DIRECTION_LABELS[optDir]}
                                         </span>
+                                        {isSelected && (
+                                            <span className="ml-auto">
+                                                <code className="text-sm text-white font-mono font-bold">{route}</code>
+                                            </span>
+                                        )}
                                     </li>
                                 );
                             })}
@@ -160,6 +194,15 @@ export default function DepartureResultTable({ fix, isOmniFallback }: DepartureR
                     </div>
                 );
             })}
+            {/* Floating copy indicator */}
+            {copyStatus === 'copied' && cursorPos && (
+                <div
+                    className="fixed z-50 pointer-events-none animate-fade-up rounded-full bg-green-500 px-2 py-0.5 text-xs font-bold text-white shadow-lg"
+                    style={{ left: cursorPos.x + 12, top: cursorPos.y - 20 }}
+                >
+                    ✓
+                </div>
+            )}
         </div>
     );
 }

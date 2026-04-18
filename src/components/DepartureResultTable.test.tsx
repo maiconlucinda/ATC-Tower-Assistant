@@ -80,13 +80,6 @@ describe('DepartureResultTable', () => {
         expect(esbu6eIdx).toBeLessThan(esbu6dIdx);
     });
 
-    it('visually distinguishes the preferred SID (first in each runway) with a star', () => {
-        render(<DepartureResultTable fix={northFix} isOmniFallback={false} />);
-        const stars = screen.getAllByLabelText('Preferred SID');
-        // One star per runway: 11L, 29R, 11R = 3 runways
-        expect(stars.length).toBe(3);
-    });
-
     it('highlights runways for NORTH direction (11L, 29R)', () => {
         const { container } = render(<DepartureResultTable fix={northFix} isOmniFallback={false} />);
         // Runway nav buttons: 11L and 29R should have blue styling

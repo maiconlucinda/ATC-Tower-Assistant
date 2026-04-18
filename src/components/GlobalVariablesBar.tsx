@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAppStore } from '@/store';
 
 function UtcClock() {
@@ -35,6 +35,14 @@ export default function GlobalVariablesBar() {
 
     const [newVarName, setNewVarName] = useState('');
     const [addError, setAddError] = useState('');
+    const [copiedVar, setCopiedVar] = useState<string | null>(null);
+
+    const handleCopyTag = useCallback((varName: string) => {
+        const tag = `{${varName}}`;
+        navigator.clipboard.writeText(tag);
+        setCopiedVar(varName);
+        setTimeout(() => setCopiedVar(null), 1200);
+    }, []);
 
     const handleAdd = () => {
         const trimmed = newVarName.trim().toLowerCase();
@@ -60,12 +68,15 @@ export default function GlobalVariablesBar() {
                 <UtcClock />
                 {globalVariables.map((v) => (
                     <div key={v.name} className="flex items-center gap-1 shrink-0">
-                        <label
-                            htmlFor={`gv-${v.name}`}
-                            className="text-[10px] text-zinc-500 uppercase tracking-wide"
+                        <button
+                            type="button"
+                            onClick={() => handleCopyTag(v.name)}
+                            className="text-[10px] text-zinc-500 uppercase tracking-wide hover:text-blue-400 cursor-pointer transition-colors"
+                            title={`Clique para copiar {${v.name}}`}
+                            aria-label={`Copiar tag {${v.name}}`}
                         >
-                            {v.name.replace(/_/g, ' ')}
-                        </label>
+                            {copiedVar === v.name ? '✓ copiado' : v.name.replace(/_/g, ' ')}
+                        </button>
                         <input
                             id={`gv-${v.name}`}
                             type="text"

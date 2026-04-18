@@ -1,0 +1,475 @@
+{
+    "fixes": [],
+    "sidProcedures": [
+        {
+            "id": "sid-esbu6a-11l",
+            "name": "ESBU6A",
+            "runway": "11L",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "EPDEP",
+                "PULUV",
+                "ILKUS",
+                "UGUGA",
+                "PABUM",
+                "KOGDI"
+            ]
+        },
+        {
+            "id": "sid-fsa3a-11l",
+            "name": "FSA3A",
+            "runway": "11L",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "ARPON",
+                "KOLDA"
+            ]
+        },
+        {
+            "id": "sid-irit1a-11l",
+            "name": "IRIT1A",
+            "runway": "11L",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "GUTIL",
+                "NELEG"
+            ]
+        },
+        {
+            "id": "sid-kotv1b-11l",
+            "name": "KOTV1B",
+            "runway": "11L",
+            "direction": "MIXED",
+            "priority": 2,
+            "fixNames": [
+                "UGTAK",
+                "SAVPU",
+                "NELEG"
+            ]
+        },
+        {
+            "id": "sid-nird1a-11l",
+            "name": "NIRD1A",
+            "runway": "11L",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "UTMAN",
+                "KOGLI"
+            ]
+        },
+        {
+            "id": "sid-otaf1a-11l",
+            "name": "OTAF1A",
+            "runway": "11L",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "OTAFO"
+            ]
+        },
+        {
+            "id": "sid-papi2a-11l",
+            "name": "PAPI2A",
+            "runway": "11L",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "KUKOL",
+                "GNV",
+                "TIPTU"
+            ]
+        },
+        {
+            "id": "sid-semd2a-11l",
+            "name": "SEMD2A",
+            "runway": "11L",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "GEPMO",
+                "ENRUR",
+                "GEBEP"
+            ]
+        },
+        {
+            "id": "sid-otaf1a-11r",
+            "name": "OTAF1A",
+            "runway": "11R",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "OTAFO",
+                "KOLDA",
+                "ARPON"
+            ]
+        },
+        {
+            "id": "sid-live2b-11r",
+            "name": "LIVE2B",
+            "runway": "11R",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "GEPMO",
+                "ENRUR",
+                "GEBEP"
+            ]
+        },
+        {
+            "id": "sid-luz2d-11r",
+            "name": "LUZ2D",
+            "runway": "11R",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "NELEG",
+                "GUTIL"
+            ]
+        },
+        {
+            "id": "sid-mibi1a-11r",
+            "name": "MIBI1A",
+            "runway": "11R",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "UTMAN",
+                "KOGLI"
+            ]
+        },
+        {
+            "id": "sid-tipt1a-11r",
+            "name": "TIPT1A",
+            "runway": "11R",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "TIPTU"
+            ]
+        },
+        {
+            "id": "sid-umsu1a-11r",
+            "name": "UMSU1A",
+            "runway": "11R",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "KUKOL",
+                "GNV"
+            ]
+        },
+        {
+            "id": "sid-utgo1b-11r",
+            "name": "UTGO1B",
+            "runway": "11R",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "EPDEP",
+                "PULUV",
+                "ILKUS",
+                "UGUGA",
+                "PABUM",
+                "KOGDI"
+            ]
+        },
+        {
+            "id": "sid-vutm1b-11r",
+            "name": "VUTM1B",
+            "runway": "11R",
+            "direction": "MIXED",
+            "priority": 1,
+            "fixNames": [
+                "UGTAK",
+                "SAVPU"
+            ]
+        },
+        {
+            "id": "sid-arso1b-29r",
+            "name": "ARSO1B",
+            "runway": "29R",
+            "direction": "MIXED",
+            "priority": 1,
+            "fixNames": [
+                "UGUGA",
+                "PABUM",
+                "KOGDI",
+                "TIPTU",
+                "SIREM"
+            ]
+        },
+        {
+            "id": "sid-bobe2a-29r",
+            "name": "BOBE2A",
+            "runway": "29R",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "GEPMO",
+                "ENRUR",
+                "GEBEP"
+            ]
+        },
+        {
+            "id": "sid-kogl1b-29r",
+            "name": "KOGL1B",
+            "runway": "29R",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "KOGLI"
+            ]
+        },
+        {
+            "id": "sid-movd1b-29r",
+            "name": "MOVD1B",
+            "runway": "29R",
+            "direction": "MIXED",
+            "priority": 2,
+            "fixNames": [
+                "UGUGA",
+                "PABUM",
+                "KOGDI",
+                "TIPTU",
+                "SIREM"
+            ]
+        },
+        {
+            "id": "sid-savp1a-29r",
+            "name": "SAVP1A",
+            "runway": "29R",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "SAVPU"
+            ]
+        },
+        {
+            "id": "sid-uken2a-29r",
+            "name": "UKEN2A",
+            "runway": "29R",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "UTMAN",
+                "ARPON",
+                "KOLDA"
+            ]
+        },
+        {
+            "id": "sid-utge1a-29r",
+            "name": "UTGE1A",
+            "runway": "29R",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "GUTIL",
+                "NELEG"
+            ]
+        },
+        {
+            "id": "sid-utme1a-29r",
+            "name": "UTME1A",
+            "runway": "29R",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "GNV",
+                "KUKOL"
+            ]
+        },
+        {
+            "id": "sid-utpa2c-29r",
+            "name": "UTPA2C",
+            "runway": "29R",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "ILKUS",
+                "PULUV",
+                "EPDEP",
+                "UGTAK"
+            ]
+        },
+        {
+            "id": "sid-utpa5b-29r",
+            "name": "UTPA5B",
+            "runway": "29R",
+            "direction": "NORTH",
+            "priority": 2,
+            "fixNames": [
+                "ILKUS",
+                "PULUV",
+                "EPDEP",
+                "UGTAK"
+            ]
+        },
+        {
+            "id": "sid-anpa2a-29l",
+            "name": "ANPA2A",
+            "runway": "29L",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "UTMAN",
+                "ARPON",
+                "KOLDA"
+            ]
+        },
+        {
+            "id": "sid-gaxo2a-29l",
+            "name": "GAXO2A",
+            "runway": "29L",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "SAVPU",
+                "GEPMO",
+                "ENRUR",
+                "GEBEP"
+            ]
+        },
+        {
+            "id": "sid-lixe1a-29l",
+            "name": "LIXE1A",
+            "runway": "29L",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "KOGLI"
+            ]
+        },
+        {
+            "id": "sid-luz1a-29l",
+            "name": "LUZ1A",
+            "runway": "29L",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "NELEG",
+                "GUTIL"
+            ]
+        },
+        {
+            "id": "sid-opvi1a-29l",
+            "name": "OPVI1A",
+            "runway": "29L",
+            "direction": "MIXED",
+            "priority": 1,
+            "fixNames": [
+                "UGUGA",
+                "PABUM",
+                "KOGDI",
+                "TIPTU"
+            ]
+        },
+        {
+            "id": "sid-tins5a-29l",
+            "name": "TINS5A",
+            "runway": "29L",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "ILKUS",
+                "PULUV",
+                "EPDEP"
+            ]
+        },
+        {
+            "id": "sid-ugta1a-29l",
+            "name": "UGTA1A",
+            "runway": "29L",
+            "direction": "NORTH",
+            "priority": 1,
+            "fixNames": [
+                "UGTAK"
+            ]
+        },
+        {
+            "id": "sid-umde1a-29l",
+            "name": "UMDE1A",
+            "runway": "29L",
+            "direction": "SOUTH",
+            "priority": 1,
+            "fixNames": [
+                "GNV",
+                "KUKOL"
+            ]
+        }
+    ],
+    "phraseCategories": [
+        {
+            "id": "cat-1",
+            "name": "AUTORIZAÇÃO",
+            "sortOrder": 1
+        },
+        {
+            "id": "cat-2",
+            "name": "PUSHBACK E ACIONAMENTO",
+            "sortOrder": 2
+        },
+        {
+            "id": "cat-3",
+            "name": "TAXI",
+            "sortOrder": 3
+        },
+        {
+            "id": "cat-4",
+            "name": "DECOLAGEM",
+            "sortOrder": 4
+        },
+        {
+            "id": "cat-5",
+            "name": "POUSO",
+            "sortOrder": 5
+        },
+        {
+            "id": "cat-6",
+            "name": "PÓS-POUSO",
+            "sortOrder": 6
+        }
+    ],
+    "phraseEntries": [],
+    "globalVariables": [
+        {
+            "name": "aeroporto",
+            "token": "{aeroporto}",
+            "value": "SBGR"
+        },
+        {
+            "name": "pista_decolagem",
+            "token": "{pista_decolagem}",
+            "value": ""
+        },
+        {
+            "name": "pista_pouso",
+            "token": "{pista_pouso}",
+            "value": ""
+        },
+        {
+            "name": "direcao_vento",
+            "token": "{direcao_vento}",
+            "value": ""
+        },
+        {
+            "name": "velocidade_vento",
+            "token": "{velocidade_vento}",
+            "value": ""
+        },
+        {
+            "name": "qnh",
+            "token": "{qnh}",
+            "value": ""
+        },
+        {
+            "name": "frequencia_saida",
+            "token": "{frequencia_saida}",
+            "value": ""
+        }
+    ],
+    "version": 1
+}
