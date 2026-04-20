@@ -131,8 +131,8 @@ export default function FixSearchInput({ onFixSelected }: FixSearchInputProps) {
                 onFocus={() => {
                     if (query.length > 0) setDropdownOpen(true);
                 }}
-                placeholder="Type a fix name..."
-                className="w-full bg-zinc-800 border border-zinc-600 rounded-md px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-blue-500"
+                placeholder="Fixo..."
+                className="w-full bg-zinc-800 border border-zinc-600 rounded px-2 py-1 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-blue-500"
                 role="combobox"
                 aria-expanded={dropdownOpen && matches.length > 0}
                 aria-controls="fix-search-listbox"
@@ -149,7 +149,7 @@ export default function FixSearchInput({ onFixSelected }: FixSearchInputProps) {
                     ref={listRef}
                     id="fix-search-listbox"
                     role="listbox"
-                    className="absolute z-10 mt-1 w-full max-h-48 overflow-y-auto bg-zinc-800 border border-zinc-600 rounded-md shadow-lg"
+                    className="absolute z-10 mt-1 w-full max-h-40 overflow-y-auto bg-zinc-800 border border-zinc-600 rounded shadow-lg"
                 >
                     {matches.map((name, idx) => (
                         <li
@@ -157,7 +157,7 @@ export default function FixSearchInput({ onFixSelected }: FixSearchInputProps) {
                             id={`fix-option-${idx}`}
                             role="option"
                             aria-selected={idx === highlightedIndex}
-                            className={`px-3 py-2 text-sm cursor-pointer ${idx === highlightedIndex
+                            className={`px-2 py-1 text-xs cursor-pointer ${idx === highlightedIndex
                                 ? 'bg-blue-600 text-white'
                                 : 'text-zinc-200 hover:bg-zinc-700'
                                 }`}

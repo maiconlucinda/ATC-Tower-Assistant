@@ -44,15 +44,16 @@ const emptyFix: TransitionFix = {
 };
 
 describe('DepartureResultTable', () => {
-    it('displays fix name and direction', () => {
+    it('renders runway grid', () => {
         render(<DepartureResultTable fix={northFix} isOmniFallback={false} />);
-        expect(screen.getByText('EPDEP')).toBeInTheDocument();
-        expect(screen.getByText('(NORTH)')).toBeInTheDocument();
+        const headings = screen.getAllByRole('heading', { level: 3 });
+        expect(headings.length).toBe(3);
     });
 
-    it('shows OMNI fallback banner when isOmniFallback is true', () => {
+    it('renders SID names', () => {
         render(<DepartureResultTable fix={mixedFix} isOmniFallback={true} />);
-        expect(screen.getByText(/OMNI fallback/)).toBeInTheDocument();
+        expect(screen.getByText('OMNI1')).toBeInTheDocument();
+        expect(screen.getByText('OMNI2')).toBeInTheDocument();
     });
 
     it('does not show OMNI fallback banner when isOmniFallback is false', () => {
@@ -62,12 +63,11 @@ describe('DepartureResultTable', () => {
 
     it('groups departure options by runway', () => {
         render(<DepartureResultTable fix={northFix} isOmniFallback={false} />);
-        // RunwayName splits "11L" into "11" + "L" in separate spans
         const headings = screen.getAllByRole('heading', { level: 3 });
         const texts = headings.map(h => h.textContent);
-        expect(texts).toContain('Pista 11L');
-        expect(texts).toContain('Pista 29R');
-        expect(texts).toContain('Pista 11R');
+        expect(texts).toContain('11L');
+        expect(texts).toContain('29R');
+        expect(texts).toContain('11R');
     });
 
     it('sorts options within each runway by insertion order', () => {
@@ -82,25 +82,24 @@ describe('DepartureResultTable', () => {
 
     it('highlights runways for NORTH direction (11L, 29R)', () => {
         const { container } = render(<DepartureResultTable fix={northFix} isOmniFallback={false} />);
-        // Runway nav buttons: 11L and 29R should have blue styling
-        const buttons = container.querySelectorAll('button');
-        const btn11L = Array.from(buttons).find((b) => b.textContent === '11L');
-        const btn29R = Array.from(buttons).find((b) => b.textContent === '29R');
-        const btn11R = Array.from(buttons).find((b) => b.textContent === '11R');
+        const cards = container.querySelectorAll('[class*="rounded border"]');
+        const card11L = Array.from(cards).find((s) => s.querySelector('h3')?.textContent === '11L');
+        const card29R = Array.from(cards).find((s) => s.querySelector('h3')?.textContent === '29R');
+        const card11R = Array.from(cards).find((s) => s.querySelector('h3')?.textContent === '11R');
 
-        expect(btn11L?.className).toContain('bg-blue-600');
-        expect(btn29R?.className).toContain('bg-blue-600');
-        expect(btn11R?.className).not.toContain('bg-blue-600');
+        expect(card11L?.className).toContain('border-blue-500');
+        expect(card29R?.className).toContain('border-blue-500');
+        expect(card11R?.className).not.toContain('border-blue-500');
     });
 
     it('highlights runways for SOUTH direction (11R, 29L)', () => {
         const { container } = render(<DepartureResultTable fix={southFix} isOmniFallback={false} />);
-        const buttons = container.querySelectorAll('button');
-        const btn11R = Array.from(buttons).find((b) => b.textContent === '11R');
-        const btn29L = Array.from(buttons).find((b) => b.textContent === '29L');
+        const cards = container.querySelectorAll('[class*="rounded border"]');
+        const card11R = Array.from(cards).find((s) => s.querySelector('h3')?.textContent === '11R');
+        const card29L = Array.from(cards).find((s) => s.querySelector('h3')?.textContent === '29L');
 
-        expect(btn11R?.className).toContain('bg-blue-600');
-        expect(btn29L?.className).toContain('bg-blue-600');
+        expect(card11R?.className).toContain('border-blue-500');
+        expect(card29L?.className).toContain('border-blue-500');
     });
 
     it('does not highlight any runway for MIXED direction', () => {
@@ -116,12 +115,9 @@ describe('DepartureResultTable', () => {
         expect(screen.getByText('Nenhuma opção de saída disponível.')).toBeInTheDocument();
     });
 
-    it('runway buttons are clickable', () => {
-        // scrollIntoView is not natively available in jsdom, mock it
-        Element.prototype.scrollIntoView = () => { };
+    it('runway headings are rendered', () => {
         render(<DepartureResultTable fix={northFix} isOmniFallback={false} />);
-        const btn = screen.getByRole('button', { name: '11L' });
-        // Should not throw when clicked
-        fireEvent.click(btn);
+        const headings = screen.getAllByRole('heading', { level: 3 });
+        expect(headings.length).toBeGreaterThan(0);
     });
 });

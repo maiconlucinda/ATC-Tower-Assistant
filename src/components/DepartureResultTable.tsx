@@ -88,112 +88,109 @@ export default function DepartureResultTable({ fix, isOmniFallback }: DepartureR
         return Array.from(seen);
     }, [fix.departureOptions]);
 
-    const scrollToRunway = useCallback((runway: string) => {
-        const el = sectionRefs.current.get(runway);
-        if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-    }, []);
-
     const setRef = useCallback((runway: string, el: HTMLDivElement | null) => {
         sectionRefs.current.set(runway, el);
     }, []);
 
+    const leftRunways = runways.filter((rwy) => rwy.endsWith('L'));
+    const rightRunways = runways.filter((rwy) => rwy.endsWith('R'));
+
     return (
         <div className="w-full">
-            {/* Fix header */}
-            <div className="mb-3">
-                <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-zinc-100">{fix.name}</span>
-                    <span className={`text-sm font-medium ${DIRECTION_COLORS[fix.direction]}`}>
-                        ({fix.direction})
-                    </span>
-                </div>
-            </div>
-
-            {/* OMNI fallback banner */}
-            {isOmniFallback && (
-                <div className="mb-3 rounded-md border border-amber-600 bg-amber-900/40 px-3 py-2 text-sm text-amber-300">
-                    OMNI fallback — fixo não encontrado
-                </div>
+            {runways.length === 0 && (
+                <p className="text-xs text-zinc-500">Nenhuma opção de saída disponível.</p>
             )}
 
-            {/* Runway quick-nav buttons */}
-            {runways.length > 0 && (
-                <div className="mb-3 flex flex-wrap gap-2">
-                    {runways.map((rwy) => {
+            <div className="grid grid-cols-2 gap-3">
+                {/* Left column — L runways */}
+                <div className="flex flex-col gap-1.5">
+                    {leftRunways.map((rwy) => {
+                        const options = getOptionsForRunway(fix, rwy);
                         const isHighlighted = highlightedRunways.has(rwy);
                         return (
-                            <button
+                            <div
                                 key={rwy}
-                                onClick={() => scrollToRunway(rwy)}
-                                className={`rounded px-3 py-1.5 text-sm font-semibold transition-colors ${isHighlighted
-                                    ? 'bg-blue-600 text-white hover:bg-blue-500 border border-blue-400'
-                                    : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-600'
+                                ref={(el) => setRef(rwy, el)}
+                                className={`rounded border p-2 ${isHighlighted
+                                    ? 'border-blue-500 bg-blue-950/30'
+                                    : 'border-zinc-700 bg-zinc-800/50'
                                     }`}
                             >
-                                <RunwayName name={rwy} />
-                            </button>
+                                <h3 className={`mb-1 text-xs font-bold ${isHighlighted ? 'text-blue-300' : 'text-zinc-300'}`}>
+                                    <RunwayName name={rwy} />
+                                </h3>
+                                <ul className="space-y-0.5">
+                                    {options.map((opt) => {
+                                        const optDir = opt.direction ?? fix.direction;
+                                        const route = `${opt.sid}.${fix.name}${rwy}`;
+                                        const isSelected = selectedRoute === route;
+                                        return (
+                                            <li
+                                                key={opt.id}
+                                                onClick={(e) => handleSidClick(e, opt.sid, rwy)}
+                                                className={`flex items-center gap-1 rounded px-1.5 py-0.5 text-xs cursor-pointer transition-colors ${isSelected
+                                                    ? 'bg-white/10 ring-1 ring-white'
+                                                    : 'text-zinc-300 hover:bg-zinc-700/50'
+                                                    }`}
+                                            >
+                                                <span>{opt.sid}</span>
+                                                <span className={`text-[10px] font-medium ${DIRECTION_COLORS[optDir]}`}>
+                                                    {DIRECTION_LABELS[optDir]}
+                                                </span>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
                         );
                     })}
                 </div>
-            )}
 
-            {/* Runway sections */}
-            {runways.length === 0 && (
-                <p className="text-sm text-zinc-500">Nenhuma opção de saída disponível.</p>
-            )}
+                {/* Right column — R runways */}
+                <div className="flex flex-col gap-1.5">
+                    {rightRunways.map((rwy) => {
+                        const options = getOptionsForRunway(fix, rwy);
+                        const isHighlighted = highlightedRunways.has(rwy);
+                        return (
+                            <div
+                                key={rwy}
+                                ref={(el) => setRef(rwy, el)}
+                                className={`rounded border p-2 ${isHighlighted
+                                    ? 'border-blue-500 bg-blue-950/30'
+                                    : 'border-zinc-700 bg-zinc-800/50'
+                                    }`}
+                            >
+                                <h3 className={`mb-1 text-xs font-bold ${isHighlighted ? 'text-blue-300' : 'text-zinc-300'}`}>
+                                    <RunwayName name={rwy} />
+                                </h3>
+                                <ul className="space-y-0.5">
+                                    {options.map((opt) => {
+                                        const optDir = opt.direction ?? fix.direction;
+                                        const route = `${opt.sid}.${fix.name}${rwy}`;
+                                        const isSelected = selectedRoute === route;
+                                        return (
+                                            <li
+                                                key={opt.id}
+                                                onClick={(e) => handleSidClick(e, opt.sid, rwy)}
+                                                className={`flex items-center gap-1 rounded px-1.5 py-0.5 text-xs cursor-pointer transition-colors ${isSelected
+                                                    ? 'bg-white/10 ring-1 ring-white'
+                                                    : 'text-zinc-300 hover:bg-zinc-700/50'
+                                                    }`}
+                                            >
+                                                <span>{opt.sid}</span>
+                                                <span className={`text-[10px] font-medium ${DIRECTION_COLORS[optDir]}`}>
+                                                    {DIRECTION_LABELS[optDir]}
+                                                </span>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
 
-            {runways.map((rwy) => {
-                const options = getOptionsForRunway(fix, rwy);
-                const isHighlighted = highlightedRunways.has(rwy);
-
-                return (
-                    <div
-                        key={rwy}
-                        ref={(el) => setRef(rwy, el)}
-                        className={`mb-3 rounded-md border p-3 ${isHighlighted
-                            ? 'border-blue-500 bg-blue-950/30'
-                            : 'border-zinc-700 bg-zinc-800/50'
-                            }`}
-                    >
-                        <h3
-                            className={`mb-2 text-base font-bold ${isHighlighted ? 'text-blue-300' : 'text-zinc-300'
-                                }`}
-                        >
-                            Pista <RunwayName name={rwy} />
-                        </h3>
-
-                        <ul className="space-y-1">
-                            {options.map((opt) => {
-                                const optDir = opt.direction ?? fix.direction;
-                                const route = `${opt.sid}.${fix.name}${rwy}`;
-                                const isSelected = selectedRoute === route;
-                                return (
-                                    <li
-                                        key={opt.id}
-                                        onClick={(e) => handleSidClick(e, opt.sid, rwy)}
-                                        className={`flex items-center gap-2 rounded px-2 py-1 text-sm cursor-pointer transition-colors ${isSelected
-                                            ? 'bg-white/10 ring-2 ring-white'
-                                            : 'text-zinc-300 hover:bg-zinc-700/50'
-                                            }`}
-                                    >
-                                        <span>{opt.sid}</span>
-                                        <span className={`text-xs font-medium ${DIRECTION_COLORS[optDir]}`}>
-                                            {DIRECTION_LABELS[optDir]}
-                                        </span>
-                                        {isSelected && (
-                                            <span className="ml-auto">
-                                                <code className="text-sm text-white font-mono font-bold">{route}</code>
-                                            </span>
-                                        )}
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </div>
-                );
-            })}
             {/* Floating copy indicator */}
             {copyStatus === 'copied' && cursorPos && (
                 <div
