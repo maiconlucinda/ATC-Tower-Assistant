@@ -14,6 +14,7 @@ import PhraseEntryList from '@/components/PhraseEntryList';
 import CategoryEditor from '@/components/CategoryEditor';
 import PhraseEntryEditor from '@/components/PhraseEntryEditor';
 import ImportExportControls from '@/components/ImportExportControls';
+import IcaoSearch from '@/components/IcaoSearch';
 
 export default function Home() {
   const [hydrated, setHydrated] = useState(false);
@@ -87,6 +88,7 @@ export default function Home() {
       <div className="flex items-center justify-between px-3 py-1.5 border-b border-zinc-800 bg-zinc-900/50 shrink-0">
         <h1 className="text-xs font-semibold text-zinc-400 tracking-wide uppercase shrink-0">ATC Tower</h1>
         <div className="flex items-center gap-3">
+          <IcaoSearch />
           <ImportExportControls />
           <EditModeToggle />
         </div>
