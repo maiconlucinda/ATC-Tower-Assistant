@@ -1,6 +1,6 @@
 import icaoData from './icao-data.json';
 
-const data = icaoData as Record<string, [string, string, string]>;
+const data = icaoData as unknown as Record<string, [string, string, string]>;
 
 export interface AirportInfo {
     icao: string;
