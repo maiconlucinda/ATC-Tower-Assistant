@@ -7,6 +7,7 @@ import { getOptionsForRunway, getHighlightedRunways } from '@/lib/utils';
 export interface DepartureResultTableProps {
     fix: TransitionFix;
     isOmniFallback: boolean;
+    runwayFilter?: Set<string> | null;
 }
 
 const DIRECTION_LABELS: Record<Direction, string> = {
@@ -42,7 +43,7 @@ function RunwayName({ name, className = '' }: { name: string; className?: string
     );
 }
 
-export default function DepartureResultTable({ fix, isOmniFallback }: DepartureResultTableProps) {
+export default function DepartureResultTable({ fix, isOmniFallback, runwayFilter }: DepartureResultTableProps) {
     const sectionRefs = useRef<Map<string, HTMLDivElement | null>>(new Map());
     const [selectedRoute, setSelectedRoute] = useState<string | null>(null);
     const [copyStatus, setCopyStatus] = useState<'idle' | 'copied'>('idle');
@@ -88,16 +89,21 @@ export default function DepartureResultTable({ fix, isOmniFallback }: DepartureR
         return Array.from(seen);
     }, [fix.departureOptions]);
 
+    const filteredRunways = useMemo(() => {
+        if (!runwayFilter || runwayFilter.size === 0) return runways;
+        return runways.filter((rwy) => runwayFilter.has(rwy));
+    }, [runways, runwayFilter]);
+
     const setRef = useCallback((runway: string, el: HTMLDivElement | null) => {
         sectionRefs.current.set(runway, el);
     }, []);
 
-    const leftRunways = runways.filter((rwy) => rwy.endsWith('L'));
-    const rightRunways = runways.filter((rwy) => rwy.endsWith('R'));
+    const leftRunways = filteredRunways.filter((rwy) => rwy.endsWith('L'));
+    const rightRunways = filteredRunways.filter((rwy) => rwy.endsWith('R'));
 
     return (
         <div className="w-full">
-            {runways.length === 0 && (
+            {filteredRunways.length === 0 && (
                 <p className="text-xs text-zinc-500">Nenhuma opção de saída disponível.</p>
             )}
 

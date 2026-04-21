@@ -18,6 +18,7 @@ import ImportExportControls from '@/components/ImportExportControls';
 export default function Home() {
   const [hydrated, setHydrated] = useState(false);
   const [selectedFix, setSelectedFix] = useState<{ fix: TransitionFix; isOmniFallback: boolean } | null>(null);
+  const [runwayFilter, setRunwayFilter] = useState<Set<string>>(new Set());
 
   const hydrate = useAppStore((s) => s.hydrate);
   const warning = useAppStore((s) => s.warning);
@@ -32,6 +33,27 @@ export default function Home() {
 
   const handleFixSelected = useCallback((fix: TransitionFix, isOmniFallback: boolean) => {
     setSelectedFix({ fix, isOmniFallback });
+  }, []);
+
+  const availableRunways = useMemo(() => {
+    if (!selectedFix) return [];
+    const seen = new Set<string>();
+    for (const opt of selectedFix.fix.departureOptions) {
+      seen.add(opt.runway);
+    }
+    return Array.from(seen).sort();
+  }, [selectedFix]);
+
+  const handleRunwayToggle = useCallback((rwy: string) => {
+    setRunwayFilter((prev) => {
+      const next = new Set(prev);
+      if (next.has(rwy)) {
+        next.delete(rwy);
+      } else {
+        next.add(rwy);
+      }
+      return next;
+    });
   }, []);
 
   const displayedEntries = useMemo(() => {
@@ -85,12 +107,25 @@ export default function Home() {
               {selectedFix.isOmniFallback && (
                 <span className="text-[10px] text-amber-300 border border-amber-600 bg-amber-900/40 px-1 py-0.5 rounded">OMNI</span>
               )}
+              <span className="text-zinc-600 mx-0.5">|</span>
+              {availableRunways.map((rwy) => (
+                <button
+                  key={rwy}
+                  onClick={() => handleRunwayToggle(rwy)}
+                  className={`px-1.5 py-0.5 rounded text-[10px] font-semibold transition-colors ${runwayFilter.has(rwy)
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
+                    }`}
+                >
+                  {rwy}
+                </button>
+              ))}
             </div>
           )}
         </div>
         {selectedFix && (
           <div className="mt-1">
-            <DepartureResultTable fix={selectedFix.fix} isOmniFallback={selectedFix.isOmniFallback} />
+            <DepartureResultTable fix={selectedFix.fix} isOmniFallback={selectedFix.isOmniFallback} runwayFilter={runwayFilter} />
           </div>
         )}
         {editMode && (

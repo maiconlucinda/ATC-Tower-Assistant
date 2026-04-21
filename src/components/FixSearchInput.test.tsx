@@ -58,12 +58,12 @@ describe('FixSearchInput', () => {
 
     it('renders the search input', () => {
         render(<FixSearchInput onFixSelected={onFixSelected} />);
-        expect(screen.getByPlaceholderText('Type a fix name...')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Fixo...')).toBeInTheDocument();
     });
 
     it('shows matching fixes in dropdown when typing', () => {
         render(<FixSearchInput onFixSelected={onFixSelected} />);
-        const input = screen.getByPlaceholderText('Type a fix name...');
+        const input = screen.getByPlaceholderText('Fixo...');
         fireEvent.change(input, { target: { value: 'ep' } });
         expect(screen.getByRole('listbox')).toBeInTheDocument();
         expect(screen.getByText('EPDEP')).toBeInTheDocument();
@@ -71,14 +71,14 @@ describe('FixSearchInput', () => {
 
     it('does not show dropdown for empty input', () => {
         render(<FixSearchInput onFixSelected={onFixSelected} />);
-        const input = screen.getByPlaceholderText('Type a fix name...');
+        const input = screen.getByPlaceholderText('Fixo...');
         fireEvent.change(input, { target: { value: '' } });
         expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     });
 
     it('selects a fix with Enter on highlighted item', () => {
         render(<FixSearchInput onFixSelected={onFixSelected} />);
-        const input = screen.getByPlaceholderText('Type a fix name...');
+        const input = screen.getByPlaceholderText('Fixo...');
         fireEvent.change(input, { target: { value: 'ep' } });
         fireEvent.keyDown(input, { key: 'ArrowDown' });
         fireEvent.keyDown(input, { key: 'Enter' });
@@ -90,7 +90,7 @@ describe('FixSearchInput', () => {
 
     it('navigates dropdown with arrow keys', () => {
         render(<FixSearchInput onFixSelected={onFixSelected} />);
-        const input = screen.getByPlaceholderText('Type a fix name...');
+        const input = screen.getByPlaceholderText('Fixo...');
         // Type 'n' to match NELEG, GNV, OMNI (all contain 'n' case-insensitive? Let's use 'ne' for NELEG)
         fireEvent.change(input, { target: { value: 'ne' } });
         // Should show NELEG
@@ -103,7 +103,7 @@ describe('FixSearchInput', () => {
 
     it('closes dropdown on Escape', () => {
         render(<FixSearchInput onFixSelected={onFixSelected} />);
-        const input = screen.getByPlaceholderText('Type a fix name...');
+        const input = screen.getByPlaceholderText('Fixo...');
         fireEvent.change(input, { target: { value: 'ep' } });
         expect(screen.getByRole('listbox')).toBeInTheDocument();
         fireEvent.keyDown(input, { key: 'Escape' });
@@ -112,7 +112,7 @@ describe('FixSearchInput', () => {
 
     it('falls back to OMNI when no match and Enter pressed', () => {
         render(<FixSearchInput onFixSelected={onFixSelected} />);
-        const input = screen.getByPlaceholderText('Type a fix name...');
+        const input = screen.getByPlaceholderText('Fixo...');
         fireEvent.change(input, { target: { value: 'ZZZZZ' } });
         fireEvent.keyDown(input, { key: 'Enter' });
         expect(onFixSelected).toHaveBeenCalledWith(
@@ -123,7 +123,7 @@ describe('FixSearchInput', () => {
 
     it('selects fix on mouse click in dropdown', () => {
         render(<FixSearchInput onFixSelected={onFixSelected} />);
-        const input = screen.getByPlaceholderText('Type a fix name...');
+        const input = screen.getByPlaceholderText('Fixo...');
         fireEvent.change(input, { target: { value: 'gnv' } });
         const option = screen.getByText('GNV');
         fireEvent.mouseDown(option);
@@ -135,7 +135,7 @@ describe('FixSearchInput', () => {
 
     it('wraps around when navigating past last item', () => {
         render(<FixSearchInput onFixSelected={onFixSelected} />);
-        const input = screen.getByPlaceholderText('Type a fix name...');
+        const input = screen.getByPlaceholderText('Fixo...');
         fireEvent.change(input, { target: { value: 'ep' } });
         // Only EPDEP matches, so ArrowDown once highlights it, ArrowDown again wraps to 0
         fireEvent.keyDown(input, { key: 'ArrowDown' }); // index 0
@@ -146,7 +146,7 @@ describe('FixSearchInput', () => {
 
     it('wraps around when navigating up past first item', () => {
         render(<FixSearchInput onFixSelected={onFixSelected} />);
-        const input = screen.getByPlaceholderText('Type a fix name...');
+        const input = screen.getByPlaceholderText('Fixo...');
         fireEvent.change(input, { target: { value: 'ep' } });
         fireEvent.keyDown(input, { key: 'ArrowUp' }); // wraps to last (index 0 since only 1 match)
         const options = screen.getAllByRole('option');
@@ -155,7 +155,7 @@ describe('FixSearchInput', () => {
 
     it('confirms exact match on Enter without dropdown highlight', () => {
         render(<FixSearchInput onFixSelected={onFixSelected} />);
-        const input = screen.getByPlaceholderText('Type a fix name...');
+        const input = screen.getByPlaceholderText('Fixo...');
         fireEvent.change(input, { target: { value: 'EPDEP' } });
         // Don't arrow down, just press Enter directly
         fireEvent.keyDown(input, { key: 'Enter' });
