@@ -14,7 +14,25 @@ export default function ImportExportControls() {
 
     const handleExport = () => {
         try {
-            const json = exportAll();
+            const state = useAppStore.getState();
+            const exportData = {
+                fixes: state.fixes.map((fix) => ({
+                    ...fix,
+                    departureOptions: fix.departureOptions.map(({ id, runway, sid, direction }) => {
+                        const opt: Record<string, unknown> = { id, runway, sid };
+                        if (direction) opt.direction = direction;
+                        return opt;
+                    }),
+                })),
+                sidProcedures: state.sidProcedures.map(({ id, name, runway, direction, fixNames }) => ({
+                    id, name, runway, direction, fixNames,
+                })),
+                phraseCategories: state.phraseCategories,
+                phraseEntries: state.phraseEntries,
+                globalVariables: state.globalVariables,
+                version: 1,
+            };
+            const json = JSON.stringify(exportData);
             const blob = new Blob([json], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const date = new Date().toISOString().slice(0, 10);
