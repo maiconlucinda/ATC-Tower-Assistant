@@ -1,0 +1,149 @@
+{
+    "fixes": [],
+    "sidProcedures": [
+        {
+            "id": "sid-buto1a-18",
+            "name": "BUTO1A",
+            "runway": "18",
+            "direction": "MIXED",
+            "fixNames": [
+                "GAVA",
+                "KIROS",
+                "KUKES",
+                "BUTO",
+                "BUDO",
+                "SAMUNU"
+            ]
+        },
+        {
+            "id": "sid-munu1a-18",
+            "name": "MUNU1A",
+            "runway": "18",
+            "direction": "MIXED",
+            "fixNames": [
+                "FNRDO",
+                "MDO",
+                "MUNU",
+                "GIROSI"
+            ]
+        },
+        {
+            "id": "sid-safu1a-18",
+            "name": "SAFU1A",
+            "runway": "18",
+            "direction": "MIXED",
+            "fixNames": [
+                "SAFU",
+                "CKUGO",
+                "VVARA"
+            ]
+        },
+        {
+            "id": "sid-vara1a-18",
+            "name": "VARA1A",
+            "runway": "18",
+            "direction": "MIXED",
+            "fixNames": [
+                "MEXAR",
+                "MUDSI",
+                "VARAB"
+            ]
+        },
+        {
+            "id": "sid-egir2a-36",
+            "name": "EGIR2A",
+            "runway": "36",
+            "direction": "MIXED",
+            "fixNames": [
+                "GAVA",
+                "KUKES",
+                "MEXAR",
+                "MUDSI",
+                "EGIRU",
+                "UDOSA"
+            ]
+        },
+        {
+            "id": "sid-gelu2a-36",
+            "name": "GELU2A",
+            "runway": "36",
+            "direction": "MIXED",
+            "fixNames": [
+                "GELUD",
+                "FNRDO",
+                "MDO"
+            ]
+        }
+    ],
+    "phraseCategories": [
+        {
+            "id": "cat-1",
+            "name": "AUTORIZAÇÃO",
+            "sortOrder": 1
+        },
+        {
+            "id": "cat-2",
+            "name": "PUSHBACK E ACIONAMENTO",
+            "sortOrder": 2
+        },
+        {
+            "id": "cat-3",
+            "name": "TAXI",
+            "sortOrder": 3
+        },
+        {
+            "id": "cat-4",
+            "name": "DECOLAGEM",
+            "sortOrder": 4
+        },
+        {
+            "id": "cat-5",
+            "name": "POUSO",
+            "sortOrder": 5
+        },
+        {
+            "id": "cat-6",
+            "name": "PÓS-POUSO",
+            "sortOrder": 6
+        }
+    ],
+    "phraseEntries": [],
+    "globalVariables": [
+        {
+            "name": "aeroporto",
+            "token": "{aeroporto}",
+            "value": "SBRF"
+        },
+        {
+            "name": "pista_decolagem",
+            "token": "{pista_decolagem}",
+            "value": ""
+        },
+        {
+            "name": "pista_pouso",
+            "token": "{pista_pouso}",
+            "value": ""
+        },
+        {
+            "name": "direcao_vento",
+            "token": "{direcao_vento}",
+            "value": ""
+        },
+        {
+            "name": "velocidade_vento",
+            "token": "{velocidade_vento}",
+            "value": ""
+        },
+        {
+            "name": "qnh",
+            "token": "{qnh}",
+            "value": ""
+        },
+        {
+            "name": "frequencia_saida",
+            "token": "{frequencia_saida}",
+            "value": ""
+        }
+    ],
+    "version": 1
+}
