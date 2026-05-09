@@ -98,8 +98,8 @@ export default function DepartureResultTable({ fix, isOmniFallback, runwayFilter
         sectionRefs.current.set(runway, el);
     }, []);
 
-    const leftRunways = filteredRunways.filter((rwy) => rwy.endsWith('L'));
-    const rightRunways = filteredRunways.filter((rwy) => rwy.endsWith('R'));
+    const leftRunways = filteredRunways.filter((rwy) => rwy.endsWith('L') || (!rwy.endsWith('L') && !rwy.endsWith('R') && filteredRunways.indexOf(rwy) % 2 === 0));
+    const rightRunways = filteredRunways.filter((rwy) => rwy.endsWith('R') || (!rwy.endsWith('L') && !rwy.endsWith('R') && filteredRunways.indexOf(rwy) % 2 === 1));
 
     return (
         <div className="w-full">
