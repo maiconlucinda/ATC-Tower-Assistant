@@ -10,16 +10,20 @@ const DIR_COLOR: Record<Direction, string> = { NORTH: 'text-sky-400', SOUTH: 'te
 
 function CreateSidForm() {
     const addSidProcedure = useAppStore((s) => s.addSidProcedure);
+    const sidProcedures = useAppStore((s) => s.sidProcedures);
     const [name, setName] = useState('');
-    const [runway, setRunway] = useState('11L');
-    const [direction, setDirection] = useState<Direction>('NORTH');
+    const [runway, setRunway] = useState('');
+    const [direction, setDirection] = useState<Direction>('MIXED');
     const [fixNames, setFixNames] = useState('');
+
+    const availableRunways = [...new Set(sidProcedures.map((s) => s.runway))].sort();
 
     const handleCreate = () => {
         const trimmedName = name.trim();
+        const rwy = runway || availableRunways[0] || '';
         const fixes = fixNames.split(',').map(f => f.trim()).filter(Boolean);
-        if (!trimmedName || fixes.length === 0) return;
-        addSidProcedure(trimmedName, runway, direction, fixes);
+        if (!trimmedName || !rwy || fixes.length === 0) return;
+        addSidProcedure(trimmedName, rwy, direction, fixes);
         setName('');
         setFixNames('');
     };
@@ -43,11 +47,20 @@ function CreateSidForm() {
                         className="bg-zinc-900 border border-zinc-600 rounded px-2 py-1 text-sm text-zinc-100 focus:outline-none focus:border-blue-500"
                         aria-label="Runway"
                     >
-                        <option value="11L">11L</option>
-                        <option value="11R">11R</option>
-                        <option value="29R">29R</option>
-                        <option value="29L">29L</option>
+                        {availableRunways.map((rwy) => (
+                            <option key={rwy} value={rwy}>{rwy}</option>
+                        ))}
+                        <option value="">+ Nova pista</option>
                     </select>
+                    {runway === '' && (
+                        <input
+                            type="text"
+                            placeholder="Ex: 18"
+                            onChange={(e) => setRunway(e.target.value)}
+                            className="bg-zinc-900 border border-zinc-600 rounded px-2 py-1 text-sm text-zinc-100 w-16 focus:outline-none focus:border-blue-500"
+                            aria-label="New runway"
+                        />
+                    )}
                     <select
                         value={direction}
                         onChange={(e) => setDirection(e.target.value as Direction)}
@@ -81,7 +94,7 @@ function CreateSidForm() {
     );
 }
 
-function SidRow({ sid }: { sid: SidProcedure }) {
+function SidRow({ sid, availableRunways }: { sid: SidProcedure; availableRunways: string[] }) {
     const updateSidProcedure = useAppStore((s) => s.updateSidProcedure);
     const deleteSidProcedure = useAppStore((s) => s.deleteSidProcedure);
     const [editingFixes, setEditingFixes] = useState(false);
@@ -109,10 +122,9 @@ function SidRow({ sid }: { sid: SidProcedure }) {
                     className="bg-zinc-900 border border-zinc-600 rounded px-1.5 py-0.5 text-xs text-zinc-100 focus:outline-none focus:border-blue-500"
                     aria-label={`Pista da SID ${sid.name}`}
                 >
-                    <option value="11L">11L</option>
-                    <option value="11R">11R</option>
-                    <option value="29R">29R</option>
-                    <option value="29L">29L</option>
+                    {availableRunways.map((rwy) => (
+                        <option key={rwy} value={rwy}>{rwy}</option>
+                    ))}
                 </select>
                 <select
                     value={sid.direction}
@@ -164,6 +176,8 @@ export default function SidEditor() {
     const sidProcedures = useAppStore((s) => s.sidProcedures);
     const [filterRunway, setFilterRunway] = useState<string>('');
 
+    const availableRunways = [...new Set(sidProcedures.map((s) => s.runway))].sort();
+
     const filtered = filterRunway
         ? sidProcedures.filter((s) => s.runway === filterRunway)
         : sidProcedures;
@@ -186,10 +200,9 @@ export default function SidEditor() {
                     className="bg-zinc-900 border border-zinc-600 rounded px-2 py-0.5 text-xs text-zinc-100 focus:outline-none focus:border-blue-500"
                 >
                     <option value="">Todas as pistas</option>
-                    <option value="11L">11L</option>
-                    <option value="11R">11R</option>
-                    <option value="29R">29R</option>
-                    <option value="29L">29L</option>
+                    {availableRunways.map((rwy) => (
+                        <option key={rwy} value={rwy}>{rwy}</option>
+                    ))}
                 </select>
                 <span className="text-xs text-zinc-500">{filtered.length} SIDs</span>
             </div>
@@ -199,7 +212,7 @@ export default function SidEditor() {
                         <h4 className="text-xs font-semibold text-zinc-400 uppercase mb-1.5">Pista {runway}</h4>
                         <div className="flex flex-col gap-1.5">
                             {sids.map((sid) => (
-                                <SidRow key={sid.id} sid={sid} />
+                                <SidRow key={sid.id} sid={sid} availableRunways={availableRunways} />
                             ))}
                         </div>
                     </div>
