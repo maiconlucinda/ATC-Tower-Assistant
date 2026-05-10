@@ -13,6 +13,8 @@ function CreateSidForm() {
     const sidProcedures = useAppStore((s) => s.sidProcedures);
     const [name, setName] = useState('');
     const [runway, setRunway] = useState('');
+    const [newRunway, setNewRunway] = useState('');
+    const [isNewRunway, setIsNewRunway] = useState(false);
     const [direction, setDirection] = useState<Direction>('MIXED');
     const [fixNames, setFixNames] = useState('');
 
@@ -20,12 +22,27 @@ function CreateSidForm() {
 
     const handleCreate = () => {
         const trimmedName = name.trim();
-        const rwy = runway || availableRunways[0] || '';
+        const rwy = isNewRunway ? newRunway.trim() : (runway || availableRunways[0] || '');
         const fixes = fixNames.split(',').map(f => f.trim()).filter(Boolean);
         if (!trimmedName || !rwy || fixes.length === 0) return;
         addSidProcedure(trimmedName, rwy, direction, fixes);
         setName('');
         setFixNames('');
+        if (isNewRunway) {
+            setIsNewRunway(false);
+            setNewRunway('');
+            setRunway(rwy);
+        }
+    };
+
+    const handleSelectChange = (value: string) => {
+        if (value === '__new__') {
+            setIsNewRunway(true);
+            setNewRunway('');
+        } else {
+            setIsNewRunway(false);
+            setRunway(value);
+        }
     };
 
     return (
@@ -42,23 +59,25 @@ function CreateSidForm() {
                         aria-label="SID name"
                     />
                     <select
-                        value={runway}
-                        onChange={(e) => setRunway(e.target.value)}
+                        value={isNewRunway ? '__new__' : runway}
+                        onChange={(e) => handleSelectChange(e.target.value)}
                         className="bg-zinc-900 border border-zinc-600 rounded px-2 py-1 text-sm text-zinc-100 focus:outline-none focus:border-blue-500"
                         aria-label="Runway"
                     >
                         {availableRunways.map((rwy) => (
                             <option key={rwy} value={rwy}>{rwy}</option>
                         ))}
-                        <option value="">+ Nova pista</option>
+                        <option value="__new__">+ Nova pista</option>
                     </select>
-                    {runway === '' && (
+                    {isNewRunway && (
                         <input
                             type="text"
-                            placeholder="Ex: 18"
-                            onChange={(e) => setRunway(e.target.value)}
+                            value={newRunway}
+                            placeholder="Ex: 16"
+                            onChange={(e) => setNewRunway(e.target.value)}
                             className="bg-zinc-900 border border-zinc-600 rounded px-2 py-1 text-sm text-zinc-100 w-16 focus:outline-none focus:border-blue-500"
                             aria-label="New runway"
+                            autoFocus
                         />
                     )}
                     <select
